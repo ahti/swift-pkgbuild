@@ -1,0 +1,10 @@
+diff --git a/utils/PathSanitizingFileCheck b/utils/PathSanitizingFileCheck
+index ab01e6c5d2..e097537c26 100755
+--- a/utils/PathSanitizingFileCheck
++++ b/utils/PathSanitizingFileCheck
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#!/usr/bin/env python2.7
+ # utils/PathSanitizingFileCheck -*- python -*-
+ #
+ # This source file is part of the Swift.org open source project

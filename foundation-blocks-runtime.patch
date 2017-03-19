@@ -1,0 +1,12 @@
+diff --git a/build.py b/build.py
+index 4f9d9e9..d2687e3 100644
+--- a/build.py
++++ b/build.py
+@@ -64,6 +64,7 @@ foundation.CFLAGS += " ".join([
+ 	'-I${SYSROOT}/usr/include/libxml2',
+ 	'-I${SYSROOT}/usr/include/curl',
+ 	'-I./',
++        '-I./closure',
+ ])
+ 
+ swift_cflags += [
