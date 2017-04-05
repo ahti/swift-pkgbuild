@@ -8,9 +8,9 @@
 
 # Maintainer: Your Name <youremail@domain.com>
 pkgname=swift-git # '-bzr', '-git', '-hg' or '-svn'
-pkgver=swift.DEVELOPMENT.SNAPSHOT.2017.03.18.a.r16.39473258a4
+pkgver=3.1
 pkgrel=1
-pkgdesc='Swift Programming Language (git master)'
+pkgdesc='Swift Programming Language'
 arch=('x86_64')
 url="https://swift.org"
 license=('Apache')
@@ -60,19 +60,18 @@ options=(!strip)
 LDFLAGS=""
 
 source=(
-  "swift::git+https://github.com/apple/swift.git"
-  "llvm::git+https://github.com/apple/swift-llvm.git"
-  "clang::git+https://github.com/apple/swift-clang.git"
-  "lldb::git+https://github.com/apple/swift-lldb.git"
-  "cmark::git+https://github.com/apple/swift-cmark.git"
-  "llbuild::git+https://github.com/apple/swift-llbuild.git"
-  "swiftpm::git+https://github.com/apple/swift-package-manager.git"
-  "swift-corelibs-xctest::git+https://github.com/apple/swift-corelibs-xctest.git"
-  "swift-corelibs-foundation::git+https://github.com/apple/swift-corelibs-foundation.git"
-  "swift-corelibs-libdispatch::git+https://github.com/apple/swift-corelibs-libdispatch.git"
-  "swift-integration-tests::git+https://github.com/apple/swift-integration-tests.git"
+  "swift::git+https://github.com/apple/swift.git#tag=swift-3.1-RELEASE"
+  "llvm::git+https://github.com/apple/swift-llvm.git#tag=swift-3.1-RELEASE"
+  "clang::git+https://github.com/apple/swift-clang.git#tag=swift-3.1-RELEASE"
+  "lldb::git+https://github.com/apple/swift-lldb.git#tag=swift-3.1-RELEASE"
+  "cmark::git+https://github.com/apple/swift-cmark.git#tag=swift-3.1-RELEASE"
+  "llbuild::git+https://github.com/apple/swift-llbuild.git#tag=swift-3.1-RELEASE"
+  "swiftpm::git+https://github.com/apple/swift-package-manager.git#tag=swift-3.1-RELEASE"
+  "swift-corelibs-xctest::git+https://github.com/apple/swift-corelibs-xctest.git#tag=swift-3.1-RELEASE"
+  "swift-corelibs-foundation::git+https://github.com/apple/swift-corelibs-foundation.git#tag=swift-3.1-RELEASE"
+  "swift-corelibs-libdispatch::git+https://github.com/apple/swift-corelibs-libdispatch.git#tag=swift-3.1-RELEASE"
+  "swift-integration-tests::git+https://github.com/apple/swift-integration-tests.git#tag=swift-3.1-RELEASE"
   "PathSanitizingFileCheck-python2.patch"
-  "foundation-blocks-runtime.patch"
   "build-presets.ini"
 )
 
@@ -90,18 +89,7 @@ sha256sums=(
   'SKIP'
   'SKIP'
   'SKIP'
-  'SKIP'
 )
-
-pkgver() {
-	cd "$srcdir/swift"
-
-# Git, tags available
-	printf "%s" "$(git describe --long | sed 's/\([^-]*-\)g/r\1/;s/-/./g')"
-
-# Git, no tags available
-	# printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
-}
 
 prepare() {
 	cd "$srcdir/swift-corelibs-libdispatch"
@@ -109,9 +97,6 @@ prepare() {
 
 	cd "$srcdir/swift"
 	git apply "$srcdir/PathSanitizingFileCheck-python2.patch"
-
-	cd "$srcdir/swift-corelibs-foundation"
-	git apply "$srcdir/foundation-blocks-runtime.patch"
 }
 
 # build() {
@@ -128,8 +113,6 @@ package() {
 		installable_package="${installable_package}" \
 		install_destdir="$pkgdir/"
 	tar xf "${installable_package}" -C "$pkgdir/"
-
-    cp "$srcdir/build/buildbot_linux/swift-linux-x86_64/lib/libsourcekitdInProc.so" "$pkgdir/usr/lib/"
 
     # why is this in here <_<
     rm "$pkgdir/usr/lib/python2.7/site-packages/six.py"
